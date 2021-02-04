@@ -4,15 +4,17 @@
 
 A metalsmith plugin to serve the build directory. Best used in development and with metalsmith-watch.
 
+This is a fork that uses updated packages to remove problems reported by `npm audit`.
+
 ## Installation
 
-    $ npm install metalsmith-serve
+    $ npm install @fidian/metalsmith-serve
 
 ## Basic Example
 
 ```js
 var metalsmith = require('metalsmith');
-var serve = require('metalsmith-serve');
+var serve = require('@fidian/metalsmith-serve');
 
 metalsmith(__dirname)
   .use(serve())
@@ -27,7 +29,7 @@ This will serve Metalsmith's build directory on localhost:8080. By default, meta
 
 ```js
 var metalsmith = require('metalsmith');
-var serve = require('metalsmith-serve');
+var serve = require('@fidian/metalsmith-serve');
 
 metalsmith(__dirname)
   .use(serve({
