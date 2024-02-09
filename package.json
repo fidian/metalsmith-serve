@@ -1,7 +1,7 @@
 {
   "name": "@fidian/metalsmith-serve",
   "description": "A metalsmith plugin to serve the build directory.",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "license": "MIT",
   "main": "lib/index.js",
   "author": "Mayo Jordanov (http://oyam.ca)",
@@ -10,14 +10,14 @@
     "url": "https://github.com/fidian/metalsmith-serve"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
-    "http-status": "^1.5.0",
-    "@fidian/node-static": "^0.8.1"
+    "chalk": "^5.3.0",
+    "http-status": "^1.7.3",
+    "serve-handler": "^6.1.5"
   },
   "devDependencies": {
-    "mocha": "^9.x",
-    "metalsmith": "^2.4.2",
-    "mkdirp": "^1.0.4"
+    "metalsmith": "^2.6.2",
+    "mkdirp": "^3.0.1",
+    "mocha": "^10.x"
   },
   "bugs": {
     "url": "https://github.com/fidian/metalsmith-serve/issues"

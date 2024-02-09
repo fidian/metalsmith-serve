@@ -120,68 +120,6 @@ describe('metalsmith-serve', function() {
 });
 
 
-describe('metalsmith-serve with custom indexFile', function(){
-
-  var metalsmith;
-  var servePlugin;
-
-  before(function(done) {
-    metalsmith = Metalsmith("test/fixtures/customindex");
-
-    servePlugin = serve({
-      verbose: false,
-      "port": port,
-      indexFile: "index.txt"
-    });
-
-    metalsmith
-      .use(servePlugin)
-      .build(function(err) {
-        if (err) throw err;
-        done();
-      });
-  });
-
-  after(function(done) {
-    servePlugin.shutdown(done);
-  });
-
-  it('should serve custom index file', function(done){
-
-    var callback = function(res) {
-      var body = '';
-
-      res.on('data', function(buf) {
-        body += buf;
-      });
-
-      res.on('end', function() {
-        assert.equal(res.statusCode, 200);
-        var contents = fs.readFileSync(path.join(metalsmith.destination(), "index.txt"), "utf8");
-        assert.equal(body, contents);
-        done();
-      });
-
-      res.on('error', function(e) {
-        throw(e);
-      });
-
-    };
-
-    var options = {
-      host: "localhost",
-      "port": port,
-      path: "/"
-    };
-
-    var req = http.request(options, callback)
-    req.end();
-
-
-  });
-
-});
-
 describe('metalsmith-serve with custom document_root', function(){
 
   var metalsmith;
@@ -196,7 +134,6 @@ describe('metalsmith-serve with custom document_root', function(){
       document_root: docRoot,
       verbose: false,
       "port": port,
-      indexFile: "index.txt"
     });
 
     metalsmith
@@ -237,7 +174,7 @@ describe('metalsmith-serve with custom document_root', function(){
     var options = {
       host: "localhost",
       "port": port,
-      path: "/"
+      path: "/index.txt"
     };
 
     var req = http.request(options, callback)
@@ -248,7 +185,7 @@ describe('metalsmith-serve with custom document_root', function(){
 
 
 // not_found file serving and redirects
-describe('metalsmith-serve custom http errors and redirects', function() {
+describe('metalsmith-serve custom redirects', function() {
 
   var metalsmith;
   var servePlugin;
@@ -259,13 +196,10 @@ describe('metalsmith-serve custom http errors and redirects', function() {
     servePlugin = serve({
       verbose: false,
       "port": port,
-      "http_error_files": {
-        404: "/404.html"
-      },
-      "redirects": {
-        "/redirect_file.txt": "/index.html",
-        "/redirect_file.txt?alt=true": "/index.html"
-      }
+      "redirects": [
+          { source: "/redirect_file.txt", destination: "/index.html" },
+          { source: "/redirect_file.txt?alt=true", destination: "/index.html" }
+      ]
     });
 
     metalsmith
@@ -302,33 +236,6 @@ describe('metalsmith-serve custom http errors and redirects', function() {
         res.on('error', function(e) {
           throw(e);
         });
-
-      }
-    ).end();
-
-  });
-
-  it('should return 404 and not_found file for non-existent file', function(done){
-    var req = http.request(
-      { host: "localhost", "port": port, path: "/lostfile.txt" },
-      function(res) {
-        var body = '';
-
-        res.on('data', function(buf) {
-          body += buf;
-        });
-
-        res.on('end', function() {
-          assert.equal(res.statusCode, 404);
-          var contents = fs.readFileSync(path.join(metalsmith.destination(), "404.html"), "utf8");
-          assert.equal(body, contents);
-          done();
-        });
-
-        res.on('error', function(e) {
-          throw(e);
-        });
-
 
       }
     ).end();
@@ -381,32 +288,6 @@ describe('metalsmith-serve custom http errors and redirects', function() {
           throw(e);
         });
 
-
-      }
-    ).end();
-
-  });
-
-  it('should return 404 for unmatched redirection with params', function(done){
-    var req = http.request(
-      { host: "localhost", "port": port, path: "/redirect_file.txt?alt=false" },
-      function(res) {
-        var body = '';
-
-        res.on('data', function(buf) {
-          body += buf;
-        });
-
-        res.on('end', function() {
-          assert.equal(res.statusCode, 404);
-          var contents = fs.readFileSync(path.join(metalsmith.destination(), "404.html"), "utf8");
-          assert.equal(body, contents);
-          done();
-        });
-
-        res.on('error', function(e) {
-          throw(e);
-        });
 
       }
     ).end();

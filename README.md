@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/mayo/metalsmith-serve.svg?branch=master)](https://travis-ci.org/mayo/metalsmith-serve)
 
-# metalsmith-serve
+# @fidian/metalsmith-serve
 
 A metalsmith plugin to serve the build directory. Best used in development and with metalsmith-watch.
 
@@ -34,10 +34,6 @@ var serve = require('@fidian/metalsmith-serve');
 metalsmith(__dirname)
   .use(serve({
     port: 8081,
-    verbose: true,
-    http_error_files: {
-      404: "/404.html"
-    },
     redirects: {
       '/old_url.php'        : '/new_url/',
       '/old_url.php?lang=en': '/en/new_url/'
@@ -67,36 +63,11 @@ Default: `8080`
 
 Port to listen on.
 
-### cache
-Type: `Number`
-Default: `0`
-
-Number of seconds to cache served files
-
 ### document_root
 Type: `String`
 Default: `metalsmith.destination()`
 
 Directory which to serve. Given path will be resolved with `path.resolve()`
-
-### verbose
-Type: `Boolean`
-Default: `false`
-
-Log all requests
-
-### http_error_files
-Type: `Object`
-Default: `undefined`
-
-Serves a corresponding file to error codes.  The common usage is a [404](https://en.wikipedia.org/wiki/HTTP_404) file if the requested file isn't located.
-
-e.g.
-```js
-"http_error_files": {
-  404: "/404.html"
-}
-```
 
 ### redirects
 Type: `Object`
@@ -111,12 +82,6 @@ e.g.
   '/old_url.php?lang=en': '/en/new_url/'
 }
 ```
-
-### gzip
-Type: `Boolean`
-Default: `false`
-
-Enable `node-static`'s gzip option. [Read more here](https://github.com/cloudhead/node-static#gzip).
 
 ## License
 
