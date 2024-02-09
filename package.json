@@ -10,8 +10,6 @@
     "url": "https://github.com/fidian/metalsmith-serve"
   },
   "dependencies": {
-    "chalk": "^5.3.0",
-    "http-status": "^1.7.3",
     "serve-handler": "^6.1.5"
   },
   "devDependencies": {
